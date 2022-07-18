@@ -5,3 +5,5 @@ tiktok_downloader
 aiogram-broadcaster
 gino
 loguru
+alembic
+psycopg2
