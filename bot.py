@@ -10,14 +10,14 @@ from tgbot.filters.admin import AdminFilter
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.user import register_user
-from tgbot.middlewares.db import DbMiddleware
+from tgbot.middlewares.acl import ACLMiddleware
 from tgbot.misc import logging
 from tgbot.models import db
 from tgbot.services.broadcasting import send_to_admins
 
 
 def register_all_middlewares(dp):
-    dp.setup_middleware(DbMiddleware())
+    dp.setup_middleware(ACLMiddleware())
 
 
 def register_all_filters(dp):
