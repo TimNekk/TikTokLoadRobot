@@ -4,3 +4,4 @@ environs~=9.0
 tiktok_downloader
 aiogram-broadcaster
 gino
+loguru
