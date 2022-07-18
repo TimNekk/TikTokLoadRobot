@@ -6,13 +6,12 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from loguru import logger
 
 from tgbot.config import load_config
-from tgbot.filters.admin import AdminFilter
-from tgbot.handlers.admin import register_admin
-from tgbot.handlers.echo import register_echo
-from tgbot.handlers.user import register_user
-from tgbot.middlewares.acl import ACLMiddleware
+from tgbot.filters import AdminFilter, TikTokFilter
+from tgbot.handlers import register_start_handlers, register_download_handlers
+from tgbot.middlewares import ACLMiddleware
 from tgbot.misc import logging
 from tgbot.models import db
+from tgbot.models.user_tg import UserTG
 from tgbot.services.broadcasting import send_to_admins
 
 
@@ -22,13 +21,12 @@ def register_all_middlewares(dp):
 
 def register_all_filters(dp):
     dp.filters_factory.bind(AdminFilter)
+    dp.filters_factory.bind(TikTokFilter)
 
 
 def register_all_handlers(dp):
-    register_admin(dp)
-    register_user(dp)
-
-    register_echo(dp)
+    register_start_handlers(dp)
+    register_download_handlers(dp)
 
 
 async def main():
@@ -44,6 +42,7 @@ async def main():
     bot["config"] = config
 
     await db.on_startup()
+    UserTG.bot = bot
 
     register_all_middlewares(dp)
     register_all_filters(dp)
