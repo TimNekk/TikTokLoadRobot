@@ -1,21 +1,24 @@
-from aiogram import types
+from aiogram import types, Bot
 from aiogram.dispatcher.middlewares import BaseMiddleware
 
-from tgbot.models.user import User
+from tgbot.models.user_tg import UserTG
 
 
 class ACLMiddleware(BaseMiddleware):
     @staticmethod
     async def set_data(telegram_user: types.User, data: dict):
-        user = await User.get(telegram_user.id)
+        user = await UserTG.get(telegram_user.id)
+
         if user is None:
-            user = User(
+            user = UserTG(
                 id=telegram_user.id,
                 username=telegram_user.username,
                 first_name=telegram_user.first_name,
                 last_name=telegram_user.last_name
             )
             await user.create()
+        elif user.is_banned:
+            await user.update(is_banned=False).apply()
 
         data["user"] = user
 
