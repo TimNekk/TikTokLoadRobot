@@ -39,7 +39,6 @@ class TimedBaseModel(BaseModel):
 
 async def on_startup():
     logger.info("Setup PostgreSQL Connection")
-    await db.gino.create_all()
     await db.set_bind(load_config().db.uri)
 
 
