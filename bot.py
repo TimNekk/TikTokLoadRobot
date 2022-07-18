@@ -11,6 +11,7 @@ from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.user import register_user
 from tgbot.middlewares.db import DbMiddleware
+from tgbot.services.broadcasting import send_to_admins
 
 logger = logging.getLogger(__name__)
 
@@ -42,11 +43,13 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
 
-    bot['config'] = config
+    bot["config"] = config
 
     register_all_middlewares(dp)
     register_all_filters(dp)
     register_all_handlers(dp)
+
+    await send_to_admins(dp, "Бот запущен")
 
     # start
     try:
@@ -62,3 +65,4 @@ if __name__ == '__main__':
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         logger.error("Bot stopped!")
+        raise SystemExit(0)
