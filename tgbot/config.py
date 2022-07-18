@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from environs import Env
 
@@ -9,6 +10,11 @@ class DbConfig:
     password: str
     user: str
     database: str
+    port: int
+    uri: str = ""
+
+    def __post_init__(self):
+        self.uri = f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
 @dataclass
@@ -20,7 +26,7 @@ class TgBot:
 
 @dataclass
 class Miscellaneous:
-    other_params: str = None
+    other_params: Optional[str] = None
 
 
 @dataclass
@@ -44,7 +50,8 @@ def load_config(path: str = None):
             host=env.str('DB_HOST'),
             password=env.str('DB_PASS'),
             user=env.str('DB_USER'),
-            database=env.str('DB_NAME')
+            database=env.str('DB_NAME'),
+            port=env.int('DB_PORT'),
         ),
         misc=Miscellaneous()
     )
