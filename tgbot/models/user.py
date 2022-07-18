@@ -1,3 +1,7 @@
+from typing import Optional
+
+from aiogram import Dispatcher
+
 from tgbot.models.db import TimedBaseModel, db
 
 
