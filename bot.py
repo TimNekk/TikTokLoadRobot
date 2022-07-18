@@ -8,7 +8,7 @@ from loguru import logger
 from tgbot.config import load_config
 from tgbot.filters import AdminFilter, TikTokFilter
 from tgbot.handlers import register_start_handlers, register_download_handlers
-from tgbot.middlewares import ACLMiddleware
+from tgbot.middlewares import ACLMiddleware, LoggingMiddleware
 from tgbot.misc import logging
 from tgbot.models import db
 from tgbot.models.user_tg import UserTG
@@ -17,6 +17,7 @@ from tgbot.services.broadcasting import send_to_admins
 
 def register_all_middlewares(dp):
     dp.setup_middleware(ACLMiddleware())
+    dp.setup_middleware(LoggingMiddleware())
 
 
 def register_all_filters(dp):
