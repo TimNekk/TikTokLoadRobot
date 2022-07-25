@@ -18,7 +18,7 @@ services:
     - tg_bot
 
   db:
-    container_name: "${BOT_CONTAINER_NAME:-db-container}"
+    container_name: "${DB_CONTAINER_NAME:-db-container}"
     image: sameersbn/postgresql:10-2
     environment:
         - DB_USER=${DB_USER}
