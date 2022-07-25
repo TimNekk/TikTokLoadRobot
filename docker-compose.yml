@@ -14,16 +14,18 @@ services:
     restart: always
     env_file:
       - ".env"
+    depends_on:
+      - psql
     networks:
     - tg_bot
 
   db:
     container_name: "${DB_CONTAINER_NAME:-db-container}"
-    image: sameersbn/postgresql:10-2
+    image: postgres:14
     environment:
-        - DB_USER=${DB_USER}
-        - DB_PASS=${DB_PASS}
-        - DB_NAME=${DB_NAME}
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASS}
+        - POSTGRES_DB=${DB_NAME}
     restart: always
     ports:
       - "5432:5432"
