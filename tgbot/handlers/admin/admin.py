@@ -1,9 +1,11 @@
 from aiogram import Dispatcher
 from aiogram.types import Message
 
+from tgbot.models.user import User
 
-async def admin_start(message: Message):
-    await message.reply("Hello, admin!")
+
+async def admin_start(message: Message, user: User):
+    await message.reply(f"Hello, admin! {user.id}")
 
 
 def register_admin(dp: Dispatcher):
