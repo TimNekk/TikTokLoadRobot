@@ -8,6 +8,7 @@ from loguru import logger
 from tgbot.config import load_config
 from tgbot.filters import AdminFilter, TikTokFilter
 from tgbot.handlers import register_start_handlers, register_download_handlers
+from tgbot.handlers.admin import register_admin_handlers
 from tgbot.middlewares import ACLMiddleware, LoggingMiddleware
 from tgbot.misc import logging
 from tgbot.models import db
@@ -28,6 +29,7 @@ def register_all_filters(dp):
 def register_all_handlers(dp):
     register_start_handlers(dp)
     register_download_handlers(dp)
+    register_admin_handlers(dp)
 
 
 async def main():

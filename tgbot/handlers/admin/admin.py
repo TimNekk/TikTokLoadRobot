@@ -1,12 +1,25 @@
 from aiogram import Dispatcher
+from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
 from tgbot.models.user import User
 
 
-async def admin_start(message: Message, user: User):
-    await message.reply(f"Hello, admin! {user.id}")
+async def test1(message: Message, state: FSMContext):
+    await message.reply("test1")
+    await state.set_state("admin")
 
 
-def register_admin(dp: Dispatcher):
-    dp.register_message_handler(admin_start, commands=["start"], state="*", is_admin=True)
+async def test2(message: Message):
+    await message.reply("test2")
+
+
+async def test3(message: Message, state: FSMContext):
+    await message.reply("test3")
+    await state.finish()
+
+
+def register_admin_handlers(dp: Dispatcher):
+    dp.register_message_handler(test1, commands=["test"])
+    dp.register_message_handler(test2, state="admin")
+    dp.register_message_handler(test3, commands=["test"], state="admin")
