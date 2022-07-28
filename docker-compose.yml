@@ -16,6 +16,7 @@ services:
       - ".env"
     depends_on:
       - db
+      - redis
     networks:
     - tg_bot
 
@@ -28,11 +29,23 @@ services:
         - POSTGRES_DB=${DB_NAME}
     restart: always
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:${DB_PORT:-5432}"
     networks:
       - tg_bot
     volumes:
       - ./postgres:/var/lib/postgresql
+
+  redis:
+    container_name: "${REDIS_CONTAINER_NAME:-redis-container}"
+    image: redis:alpine
+    command: "redis-server --requirepass ${REDIS_PASS:-password123}"
+    restart: always
+    ports:
+      - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
+    networks:
+      - tg_bot
+    volumes:
+      - ./redis:/data
 
 
 
