@@ -22,4 +22,4 @@ async def test3(message: Message, state: FSMContext):
 def register_admin_handlers(dp: Dispatcher):
     dp.register_message_handler(test1, commands=["test"])
     dp.register_message_handler(test2, state="admin")
-    dp.register_message_handler(test3, commands=["test"], state="admin")
+    dp.register_message_handler(test3, commands=["stop"], state="admin")
