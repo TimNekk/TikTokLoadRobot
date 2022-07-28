@@ -18,6 +18,13 @@ class DbConfig:
 
 
 @dataclass
+class RedisConfig:
+    host: str
+    port: int
+    password: str
+
+
+@dataclass
 class TgBot:
     token: str
     admin_ids: List[int]
@@ -33,6 +40,7 @@ class Miscellaneous:
 class Config:
     tg_bot: TgBot
     db: DbConfig
+    redis: RedisConfig
     misc: Miscellaneous
 
 
@@ -53,5 +61,11 @@ def load_config(path: str = None):
             database=env.str('DB_NAME'),
             port=env.int('DB_PORT'),
         ),
+        redis=RedisConfig(
+            host=env.str('REDIS_HOST'),
+            password=env.str('REDIS_PASS'),
+            port=env.int('REDIS_PORT'),
+        ),
         misc=Miscellaneous()
+
     )
